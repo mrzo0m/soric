@@ -7,10 +7,11 @@ __lua__
 #include keyboardcomponent.lua
 #include entity.lua
 #include player.lua
+#include system.lua
 soric_sp=1
 soric_flip=false
 soric_anim_time=0
-debug=false
+debug=true
 
 logger = getlogger()
 
@@ -18,7 +19,7 @@ component = getcomponent()
 keyboard_cmp = getkeyboardcomponent()
 entity = getentity()
 player = getplayer()
-
+system = getsystem()
 
 function _init()
 	
@@ -56,18 +57,17 @@ function _draw()
  
 
  local c = keyboard_cmp()
- print(c:get_type())
+
  
- local pl = player(2, "oleg")
- print(pl:get_id())
+ local pl = player(2)
+
  pl:add(c)
- local back = pl:get_components()
-	
-	foreach(back, 
-	 function(i)
-	  print(i:get_type())
-	 end
-	)
+
+ local s = system("move")
+ 
+ s:register_entity(pl)
+ 
+ s:get_entity(pl:get_type())
 
 
 end

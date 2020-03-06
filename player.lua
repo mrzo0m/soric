@@ -6,6 +6,7 @@ function getplayer()
     
     local player = {}
     player.__index = player
+    local entity_type = "player"
     
     setmetatable(player, {
         __index = entity, -- this is what makes the inheritance work
@@ -16,18 +17,10 @@ function getplayer()
         end,
     })
     
-    function player:_init(id, name)
-        entity._init(self, id) -- call the base class constructor
-        self.name = name
-    end
-    
-    function player:get_id()
-        return self.id
+    function player:_init(id)
+        entity._init(self, id, entity_type) -- call the base class constructor
     end
 
-    function player:get_name()
-        return self.name
-    end
     
     return player
 end

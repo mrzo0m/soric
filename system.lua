@@ -27,28 +27,48 @@ function getsystem()
         return self.type
     end
 
+    function system:get_entity(entity_type)
+        --debug
+        if debug then
+            logger:debug("get " .. entity_type .. " from system ")
+        end
+
+        local reslult
+        for e in all(self.entitys) do
+            if e:get_type() == entity_type then
+                reslult = e
+            end
+        end
+        return reslult
+
+    end
+
     function system:register_world(world)
         self.world = world
     end
 
     function system:register_entity(entity)
-
+        if debug then
+            logger:debug("Registring some entity "..entity:get_type().." to system ")
+        end
         local entity_type = entity:get_type()
-        if self.entitys[entity_type] then
+
+        local tmp = self:get_entity(entity_type)
+        --debug
+        if debug and tmp ~= nil then
+            logger:debug("type is "..tmp:get_type())
+        end
+        if tmp ~= nil then
             --debug
             if debug then
-                logger:debug("Aready added " .. cmp:get_type() .. " to entity "..self.id)
+                logger:debug("Aready added "..entity_type.." to system ")
             end
         else
-            add(self.entitys, cmp)
+            add(self.entitys, entity)
             --debug
             if debug then
-                logger:debug("added " .. cmp:get_type() .. " to entity "..self.id)
+                logger:debug("added "..entity:get_type().." to system ")
             end
-            --[[
-                if self.eventmanager then
-                    self.eventmanager:fireevent(lovetoys.componentadded(self, name))
-                end ]] --
         end
     end
 

@@ -14,12 +14,22 @@ function getentity()
         end,
     })
 
-    function entity:_init(init)
-        self.id = init
+    function entity:_init(id, type)
+        self.id = id
+        self.type = type
         self.components = {}
         self.eventManager = nil
         self.alive = false
     end
+
+    function entity:set_type(type_newval)
+        self.type = type_newval
+    end
+
+    function entity:get_type()
+        return self.type
+    end
+
 
     function entity:get(cmp_type)
         --debug
@@ -50,13 +60,13 @@ function getentity()
         if tmp ~= nil then
             --debug
             if debug then
-                logger:debug("Aready added "..cmp_type.." to entity "..self.id)
+                logger:debug("Aready added "..cmp_type.." to entity ")
             end
         else
             add(self.components, cmp)
             --debug
             if debug then
-                logger:debug("added "..cmp:get_type().." to entity "..self.id)
+                logger:debug("added "..cmp:get_type().." to entity ")
             end
             --[[
                 if self.eventmanager then
@@ -68,7 +78,7 @@ function getentity()
     function entity:remove(cmp)
         --debug
         if debug then
-            logger:debug("delete " .. cmp:get_type() .. " from entity "..self.id )
+            logger:debug("delete " .. cmp:get_type() .. " from entity " )
         end
         del(self.components, cmp)
     end
