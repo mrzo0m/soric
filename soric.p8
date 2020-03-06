@@ -2,11 +2,26 @@ pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
 -- soric man
-#include main.lua
-soric_sp=5
+#include logger.lua
+#include component.lua
+#include keyboardcomponent.lua
+#include entity.lua
+#include player.lua
+soric_sp=1
 soric_flip=false
 soric_anim_time=0
+debug=false
+
+logger = getlogger()
+
+component = getcomponent()
+keyboard_cmp = getkeyboardcomponent()
+entity = getentity()
+player = getplayer()
+
+
 function _init()
+	
 
 
 end
@@ -26,7 +41,7 @@ function _update()
 		  soric_sp= soric_sp + 2
 		 end
 		 if soric_sp > 9 then
-		  soric_sp=5
+		  soric_sp=1
 		 end
 		 	
 	
@@ -38,12 +53,23 @@ end
 function _draw()
   cls()
   spr(soric_sp,56,56,2,2,true)
+ 
 
-	local i = myclass.new(5)
-	-- tbl:name(arg) is a shortcut for tbl.name(tbl, arg), except tbl is evaluated only once
-	print(i:get_value()) --> 5
-	i:set_value(6)
-	print(i:get_value()) --> 6
+ local c = keyboard_cmp()
+ print(c:get_type())
+ 
+ local pl = player(2, "oleg")
+ print(pl:get_id())
+ pl:add(c)
+ local back = pl:get_components()
+	
+	foreach(back, 
+	 function(i)
+	  print(i:get_type())
+	 end
+	)
+
+
 end
 
 

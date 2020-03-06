@@ -15,6 +15,35 @@ function getentity()
 
     function entity:_init(init)
         self.id = init
+        self.components = {}
+        self.eventManager = nil
+        self.alive = false
+    end
+
+    function entity:add(cmp)
+
+
+        local cmp_type = cmp:get_type()
+        if self.components[cmp_type] then
+            --debug
+            if debug then
+                logger:debug("Aready added "..cmp:get_type().." to entity ")
+            end
+        else
+            add(self.components, cmp)
+            --debug
+            if debug then
+                logger:debug("added "..cmp:get_type().." to entity ")
+            end
+            --[[
+                if self.eventmanager then
+                    self.eventmanager:fireevent(lovetoys.componentadded(self, name))
+                end ]]--
+        end
+    end
+
+    function entity:get_components()
+        return self.components
     end
 
     function entity:set_id(newval)
