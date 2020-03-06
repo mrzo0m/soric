@@ -21,19 +21,42 @@ function getentity()
         self.alive = false
     end
 
+    function entity:get(cmp_type)
+        --debug
+        if debug then
+            logger:debug("get " .. cmp_type .. " from entity ")
+        end
+
+        local reslult
+        for c in all(self.components) do
+            if c:get_type() == cmp_type then
+                reslult = c
+            end
+        end
+        return reslult
+
+    end
+
+
     function entity:add(cmp)
 
         local cmp_type = cmp:get_type()
-        if self.components[cmp_type] then
+
+        local tmp = self:get(cmp_type)
+        --debug
+        if debug and tmp ~= nil then
+            logger:debug("type is "..tmp:get_type())
+        end
+        if tmp ~= nil then
             --debug
             if debug then
-                logger:debug("Aready added " .. cmp:get_type() .. " to entity "..self.id)
+                logger:debug("Aready added "..cmp_type.." to entity "..self.id)
             end
         else
             add(self.components, cmp)
             --debug
             if debug then
-                logger:debug("added " .. cmp:get_type() .. " to entity "..self.id)
+                logger:debug("added "..cmp:get_type().." to entity "..self.id)
             end
             --[[
                 if self.eventmanager then
@@ -48,22 +71,6 @@ function getentity()
             logger:debug("delete " .. cmp:get_type() .. " from entity "..self.id )
         end
         del(self.components, cmp)
-    end
-
-    function entity:get(cmp_type)
-        --debug
-        if debug then
-            logger:debug("get " .. cmp:get_type() .. " from entity "..self.id )
-        end
-
-        local reslult
-        for c in all(self.components) do
-            if c:get_type() == cmp_type then
-                reslult = c
-            end
-        end
-        return reslult
-
     end
 
 
