@@ -6,51 +6,69 @@ __lua__
 #include component.lua
 #include keyboardcomponent.lua
 #include sprite.lua
+#include motion.lua
 #include transform.lua
 #include entity.lua
 #include player.lua
 #include system.lua
+#include movement.lua
 #include render.lua
 soric_sp=1
 soric_flip=false
 soric_anim_time=0
-debug=false
+debug=true
 ren=nil
-logger = getlogger()
+mvm=nil
 
+velx=nil
+vely=nil
+
+logger = getlogger()
+--components
 component = getcomponent()
 keyboard_cmp = getkeyboardcomponent()
 sprite = getsprite()
+motion = getmotion()
 transform = gettransform()
+--entitys
 entity = getentity()
 player = getplayer()
+--systems
 system = getsystem()
 render = getrender()
+movement = getmovement()
+
 
 function _init()
 	
 
  
  local soric_spr = sprite(1,2,2,true,false)
- local soric_trf = transform(19,58)
+ local soric_trf = transform(109,118)
 
  
  local pl = player(2)
+ 
+ local soric_motion = motion(1,2,3,4)
 
  pl:add(soric_spr)
  pl:add(soric_trf)
-
+ pl:add(soric_motion)
 
 
  ren = render()
- 
  ren:register_entity(pl)
+ 
+ mvm = movement()
+ mvm:register_entity(pl)
 end
 
 function _update()
 
  local cur_time = time()
  
+  mvm:update(cur_time)
+ --[[
  if cur_time - soric_anim_time > 0.2 then
 			soric_anim_time = time()
 
@@ -63,10 +81,10 @@ function _update()
 		 end
 		 if soric_sp > 9 then
 		  soric_sp=1
-		 end
+		 end 
 		 	
 	
- end
+ end ]]--
  
  
 end
@@ -78,7 +96,8 @@ function _draw()
 
  
  ren:render()
-
+ 
+ print(velx.." "..vely)
 end
 
 

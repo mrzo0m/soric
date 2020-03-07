@@ -32,5 +32,13 @@ __lua__
         return self.y
     end
 
+    function transform:set_x(newx)
+         self.x = newx
+    end
+
+    function transform:set_y(newy)
+         self.y = newy
+    end
+
     return transform
 end

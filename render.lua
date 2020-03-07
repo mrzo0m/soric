@@ -21,7 +21,7 @@ function getrender()
         system._init(self,  system_type) -- call the base class constructor
     end
 
-    function system:render()
+    function render:render()
         foreach(self.entitys,
             function(e)
                 local trf = e:get("transform")
