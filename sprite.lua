@@ -18,17 +18,18 @@ function getsprite()
         end,
     })
 
-    function sprite:_init(start_pix, size_w, size_h, flip_x, flip_y)
+    function sprite:_init(start_pix, size_w, size_h, flip_x, flip_y, end_pix)
         component._init(self, cmp_type) -- call the base class constructor
         self.start_pix = start_pix
         self.size_w = size_w
         self.size_h = size_h
         self.flip_x = flip_x
         self.flip_y = flip_y
+        self.end_pix = end_pix
     end
 
 
-    function sprite:get_start_pix()
+    function sprite:get_start_pix() --current
         return self.start_pix
     end
 
@@ -50,6 +51,37 @@ function getsprite()
     function sprite:get_flip_y()
         return self.flip_y
     end
+
+
+    function sprite:get_end_pix()
+        return self.end_pix
+    end
+
+
+
+    function sprite:set_start_pix(start_pix)
+         self.start_pix = start_pix
+    end
+
+    function sprite:set_size_w(size_w)
+         self.size_w = size_w
+    end
+
+
+    function sprite:set_size_h(size_h)
+         self.size_h = size_h
+    end
+
+
+    function sprite:set_flip_x(flip_x)
+         self.flip_x = flip_x
+    end
+
+
+    function sprite:get_flip_y(flip_y)
+         self.flip_y = flip_y
+    end
+
 
 
 

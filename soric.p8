@@ -4,7 +4,7 @@ __lua__
 -- soric man
 #include logger.lua
 #include component.lua
-#include keyboardcomponent.lua
+#include keyboard.lua
 #include sprite.lua
 #include motion.lua
 #include transform.lua
@@ -12,11 +12,12 @@ __lua__
 #include player.lua
 #include system.lua
 #include movement.lua
+#include playerinput.lua
 #include render.lua
 soric_sp=1
 soric_flip=false
 soric_anim_time=0
-debug=true
+debug=false
 ren=nil
 mvm=nil
 
@@ -26,7 +27,7 @@ vely=nil
 logger = getlogger()
 --components
 component = getcomponent()
-keyboard_cmp = getkeyboardcomponent()
+keyboard = getkeyboard()
 sprite = getsprite()
 motion = getmotion()
 transform = gettransform()
@@ -37,23 +38,27 @@ player = getplayer()
 system = getsystem()
 render = getrender()
 movement = getmovement()
-
+playerinput = getplayerinput()
 
 function _init()
 	
 
  
- local soric_spr = sprite(1,2,2,true,false)
+ local soric_spr = sprite(1,2,2,true,false,9)
  local soric_trf = transform(1,59)
 
  
  local pl = player(2)
  
- local soric_motion = motion(0,0,0.0009,0)
+ local soric_motion = motion(0,0,0.000,0.0001)
+ 
+ local soric_keyb = keyboard(false,false,false,false,false,false)
+ 
 
  pl:add(soric_spr)
  pl:add(soric_trf)
  pl:add(soric_motion)
+ pl:add(soric_keyb)
 
 
  ren = render()
@@ -61,6 +66,9 @@ function _init()
  
  mvm = movement()
  mvm:register_entity(pl)
+ 
+ inpt = playerinput()
+ inpt:register_entity(pl)
 end
 
 function _update()
@@ -68,25 +76,13 @@ function _update()
  local cur_time = time()
  
   mvm:update(cur_time)
+  inpt:update(cur_time)
  --[[
  if cur_time - soric_anim_time > 0.2 then
-			soric_anim_time = time()
-
-		 if btn(⬇️) then 
-		  soric_flip=true 
-		 end
-		 
-		 if btn(❎) then
-		  soric_sp= soric_sp + 2
-		 end
-		 if soric_sp > 9 then
-		  soric_sp=1
-		 end 
-		 	
+			soric_anim_time = time() 
 	
  end ]]--
- 
- 
+  
 end
 
 function _draw()
@@ -97,7 +93,7 @@ function _draw()
  
  ren:render()
  
- print(velx.." "..vely)
+ --print(velx.." "..vely)
 end
 
 
