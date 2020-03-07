@@ -44,12 +44,12 @@ function _init()
 
  
  local soric_spr = sprite(1,2,2,true,false)
- local soric_trf = transform(109,118)
+ local soric_trf = transform(1,59)
 
  
  local pl = player(2)
  
- local soric_motion = motion(1,2,3,4)
+ local soric_motion = motion(0,0,0.0009,0)
 
  pl:add(soric_spr)
  pl:add(soric_trf)

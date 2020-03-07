@@ -30,13 +30,18 @@ function getmovement()
 
                  local velocity = m:get_velocity()
                  local acceleration = m:get_acceleration()
-                velx = velocity.x + dt
-                vely = velocity.y + dt
-                --debug
-                if debug then
-                    logger:debug("velocity is  "..velocity.x.." "..velocity.y)
-                    logger:debug("acceleration is  "..acceleration.x.." "..acceleration.y)
-                end
+                 local cur_position_x = t:get_x()
+                 local cur_position_y = t:get_y()
+
+
+                 t:set_x(cur_position_x + velocity.x)
+                 t:set_y(cur_position_y + velocity.y)
+
+                 m:set_velocity(velocity.x + acceleration.x, velocity.y + acceleration.y)
+
+                velx = velocity.x.." "..velocity.y
+                vely = acceleration.x.." "..acceleration.y
+
 
                 --[[
                     position.x += motion.velocity.x;
