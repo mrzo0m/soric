@@ -6,6 +6,7 @@ __lua__
 #include component.lua
 #include keyboardcomponent.lua
 #include sprite.lua
+#include transform.lua
 #include entity.lua
 #include player.lua
 #include system.lua
@@ -13,13 +14,14 @@ __lua__
 soric_sp=1
 soric_flip=false
 soric_anim_time=0
-debug=true
-
+debug=false
+ren=nil
 logger = getlogger()
 
 component = getcomponent()
 keyboard_cmp = getkeyboardcomponent()
 sprite = getsprite()
+transform = gettransform()
 entity = getentity()
 player = getplayer()
 system = getsystem()
@@ -28,6 +30,21 @@ render = getrender()
 function _init()
 	
 
+ 
+ local soric_spr = sprite(1,2,2,true,false)
+ local soric_trf = transform(19,58)
+
+ 
+ local pl = player(2)
+
+ pl:add(soric_spr)
+ pl:add(soric_trf)
+
+
+
+ ren = render()
+ 
+ ren:register_entity(pl)
 end
 
 function _update()
@@ -56,29 +73,11 @@ end
 
 function _draw()
   cls()
-  spr(soric_sp,56,56,2,2,true)
+ -- spr(soric_sp,56,56,2,2,true)
  
 
  
- local soric_spr = sprite()
-
- 
- local pl = player(2)
-
- pl:add(soric_spr)
-
-
-
- local s = render()
- 
- s:register_entity(pl)
- 
-
-  
- local rq = pl:get_type()
- print(rq)
- local resp = s:get_entity(rq)
- print(resp:get_type()) 
+ ren:render()
 
 end
 

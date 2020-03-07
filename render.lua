@@ -20,6 +20,24 @@ function getrender()
     function render:_init()
         system._init(self,  system_type) -- call the base class constructor
     end
-    
+
+    function system:render()
+        foreach(self.entitys,
+            function(e)
+                local trf = e:get("transform")
+                local s = e:get("sprite")
+                spr(
+                    s:get_start_pix(),
+                    trf:get_x(),
+                    trf:get_y(),
+                    s:get_size_w(),
+                    s:get_size_h(),
+                    s:get_flip_x(),
+                    s:get_flip_y()
+                )
+            end
+        )
+    end
+
     return render
 end

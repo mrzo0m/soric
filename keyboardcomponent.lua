@@ -22,9 +22,6 @@ function getkeyboardcomponent()
         component._init(self, cmp_type) -- call the base class constructor
     end
 
-    function keyboardcomponent:get_type()
-        return self.type
-    end
 
     return keyboardcomponent
 end
