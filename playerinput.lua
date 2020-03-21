@@ -21,6 +21,15 @@ function getplayerinput()
         system._init(self,  system_type) -- call the base class constructor
     end
 
+    function playerinput:reset()
+        keyboard:set_up_arrow(false)
+        keyboard:set_down_arrow(false)
+        keyboard:set_left_arrow(false)
+        keyboard:set_right_arrow(false)
+        keyboard:set_fst_btn(false)
+        keyboard:set_snd_btn(false)
+    end
+
     function playerinput:update(dt)
 
             foreach(self.entitys,
