@@ -17,7 +17,7 @@ function getentity()
     function entity:_init(id, type)
         self.id = id
         self.type = type
-        self.components = {}
+        self.components = {} -- Use a table/map
         self.eventManager = nil
         self.alive = false
     end
@@ -30,29 +30,21 @@ function getentity()
         return self.type
     end
 
-
     function entity:get(cmp_type)
         --debug
         if debug then
             logger:debug("get " .. cmp_type .. " from entity ")
         end
-
-        local reslult
-        for c in all(self.components) do
-            if c:get_type() == cmp_type then
-                reslult = c
-            end
-        end
-        return reslult
-
+        return self.components[cmp_type] -- Direct access, O(1)
     end
-
 
     function entity:add(cmp)
 
         local cmp_type = cmp:get_type()
+        
+        if not self.components[cmp_type] then
+            self.components[cmp_type] = cmp -- Add to table
 
-        local tmp = self:get(cmp_type)
         --debug
         if debug and tmp ~= nil then
             logger:debug("type is "..tmp:get_type())
@@ -62,8 +54,7 @@ function getentity()
             if debug then
                 logger:debug("Aready added "..cmp_type.." to entity ")
             end
-        else
-            add(self.components, cmp)
+        
             --debug
             if debug then
                 logger:debug("added "..cmp:get_type().." to entity ")
@@ -80,7 +71,9 @@ function getentity()
         if debug then
             logger:debug("delete " .. cmp:get_type() .. " from entity " )
         end
-        del(self.components, cmp)
+
+        local cmp_type = cmp:get_type()
+        self.components[cmp_type] = nil -- Remove from the table
     end
 
 

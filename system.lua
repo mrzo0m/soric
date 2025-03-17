@@ -27,29 +27,28 @@ function getsystem()
         return self.type
     end
 
-    function system:get_entity(entity_type)
-        --debug
-        if debug then
-            logger:debug("get " .. entity_type .. " from system ")
+    function system:get_entity(entity_id)
+        if self.world == nil then
+           error("system not registered in world")
         end
+        local entity = self.world:get_entity(entity_id)
 
-        local reslult
-        for e in all(self.entitys) do
-            if e:get_type() == entity_type then
-                reslult = e
-            end
-        end
-        return reslult
-
+        return entity
     end
 
     function system:register_world(world)
         self.world = world
     end
 
-    function system:register_entity(entity)
+    function system:register_entity(entity)        
+        if self.world == nil then
+           error("system not registered in world")
+        end
+        if entity == nil then
+            error("Cant register a nil entity")
+        end
         if debug then
-            logger:debug("Registring some entity "..entity:get_type().." to system ")
+            logger:debug("Registring some entity "..entity:get_id().." to system ")
         end
         local entity_type = entity:get_type()
 
@@ -64,10 +63,27 @@ function getsystem()
                 logger:debug("Aready added "..entity_type.." to system ")
             end
         else
-            add(self.entitys, entity)
+            if self.world:has_entity(entity:get_id()) then
+                add(self.entitys, entity)
+            else
+                error("Can register an entity that is not on the world")
+            end
+
             --debug
             if debug then
-                logger:debug("added "..entity:get_type().." to system ")
+                logger:debug("added "..entity:get_id().." to system ")
+            end
+        end
+    end
+
+    function system:unregister_entity(entity)
+        for i,e in ipairs(self.entitys) do
+            if e:get_id() == entity:get_id() then
+                del(self.entitys,i)
+                if debug then
+                    logger:debug("unregistered "..entity:get_id().." from system ")
+                end
+                break
             end
         end
     end
