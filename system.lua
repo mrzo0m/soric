@@ -6,8 +6,8 @@ function getsystem()
     system.__index = system
 
     setmetatable(system, {
-        __call = function (cls, ...)
-            local self = setmetatable({}, cls)
+        __call = function (klass, ...)
+            local self = setmetatable({}, klass)
             self:_init(...)
             return self
         end,

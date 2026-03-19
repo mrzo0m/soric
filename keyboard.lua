@@ -11,8 +11,8 @@ function getkeyboard()
 
     setmetatable(keyboard, {
         __index = component, -- this is what makes the inheritance work
-        __call = function (cls, ...)
-            local self = setmetatable({}, cls)
+        __call = function (klass, ...)
+            local self = setmetatable({}, klass)
             self:_init(...)
             return self
         end,

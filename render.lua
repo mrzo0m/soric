@@ -10,8 +10,8 @@ function getrender()
     
     setmetatable(render, {
         __index = system, -- this is what makes the inheritance work
-        __call = function (cls, ...)
-            local self = setmetatable({}, cls)
+        __call = function (klass, ...)
+            local self = setmetatable({}, klass)
             self:_init(...)
             return self
         end,
