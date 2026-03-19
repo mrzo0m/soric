@@ -78,7 +78,7 @@ function getsprite()
     end
 
 
-    function sprite:get_flip_y(flip_y)
+    function sprite:set_flip_y(flip_y)
          self.flip_y = flip_y
     end
 

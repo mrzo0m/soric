@@ -20,7 +20,7 @@ function getsystem()
     end
 
     function system:set_type(newval)
-        self.type = type
+        self.type = newval
     end
 
     function system:get_type()
@@ -79,7 +79,7 @@ function getsystem()
     function system:unregister_entity(entity)
         for i,e in ipairs(self.entitys) do
             if e:get_id() == entity:get_id() then
-                del(self.entitys,i)
+                del(self.entitys,e)
                 if debug then
                     logger:debug("unregistered "..entity:get_id().." from system ")
                 end

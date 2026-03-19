@@ -18,7 +18,7 @@ function getcomponent()
     end
     
     function component:set_type(newval)
-        self.type = type
+        self.type = newval
     end
     
     function component:get_type()
