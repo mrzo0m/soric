@@ -39,30 +39,16 @@ function getentity()
     end
 
     function entity:add(cmp)
-
         local cmp_type = cmp:get_type()
-        
         if not self.components[cmp_type] then
-            self.components[cmp_type] = cmp -- Add to table
-
-        --debug
-        if debug and tmp ~= nil then
-            logger:debug("type is "..tmp:get_type())
-        end
-        if tmp ~= nil then
-            --debug
+            self.components[cmp_type] = cmp
+            if debug then
+                logger:debug("added "..cmp_type.." to entity ")
+            end
+        else
             if debug then
                 logger:debug("Aready added "..cmp_type.." to entity ")
             end
-        
-            --debug
-            if debug then
-                logger:debug("added "..cmp:get_type().." to entity ")
-            end
-            --[[
-                if self.eventmanager then
-                    self.eventmanager:fireevent(lovetoys.componentadded(self, name))
-                end ]] --
         end
     end
 

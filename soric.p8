@@ -12,6 +12,7 @@ __lua__
 #include entity.lua
 #include player.lua
 #include system.lua
+#include world.lua
 #include movement.lua
 #include playerinput.lua
 #include render.lua
@@ -42,6 +43,7 @@ system = getsystem()
 render = getrender()
 movement = getmovement()
 playerinput = getplayerinput()
+world = getworld()
 fsm=nil
 pl=nil
 function _init()
@@ -60,26 +62,28 @@ fsm = machine.create({
 
  
  pl = player(2)
- 
+
  local soric_motion = motion(0,0,0.000,0.0001)
- 
+
  local soric_keyb = keyboard(false,false,false,false,false,false)
- 
+
 
  pl:add(soric_spr)
  pl:add(soric_trf)
  pl:add(soric_motion)
  pl:add(soric_keyb)
 
+ w = world()
+ w:register_entity(pl)
 
  ren = render()
- ren:register_entity(pl)
- 
+ w:register_system(ren)
+
  mvm = movement()
- mvm:register_entity(pl)
- 
+ w:register_system(mvm)
+
  inpt = playerinput()
- inpt:register_entity(pl)
+ w:register_system(inpt)
 end
 
 function _update()

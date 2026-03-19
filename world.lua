@@ -1,4 +1,6 @@
-lua
+pico-8 cartridge // http://www.pico-8.com
+version 18
+__lua__
 function getworld()
     local world = {}
     world.__index = world
@@ -30,6 +32,19 @@ function getworld()
             system:register_entity(e)
          end
     end
+    function world:get_entity(entity_id)
+        for e in all(self.entitys) do
+            if e:get_id() == entity_id then
+                return e
+            end
+        end
+        return nil
+    end
+
+    function world:has_entity(entity_id)
+        return self:get_entity(entity_id) ~= nil
+    end
+
     function world:get_entities_with(component_types)
         local matching_entities = {}
         for e in all(self.entitys) do
