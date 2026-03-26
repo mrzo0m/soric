@@ -34,13 +34,15 @@ function getplayerinput()
 
             foreach(self.entitys,
             function(e)
-                local trf = e:get("transform")
                 local keyb = e:get("keyboard")
                 local s = e:get("sprite")
+                if keyb == nil or s == nil then return end
+
+                -- reset all keys each frame
+                self:reset()
 
                 local last_spr_pix = s:get_end_pix()
                 local shift_for_spr = s:get_size_w()
-
 
                  local animfn = function()
                      if s:get_start_pix() > last_spr_pix - 1 then
@@ -50,27 +52,23 @@ function getplayerinput()
                      end
                  end
 
+                -- update keyboard state only.
+                -- movement system handles position,
+                -- velocity, and sprite flipping.
                 if btn(3) then
                     keyb:set_down_arrow(true)
-                    trf:set_y(trf:get_y() + 1)
                 end
                 if btn(2) then
                     keyb:set_up_arrow(true)
-                    trf:set_y(trf:get_y() - 1)
                 end
 
                 if btn(1) then
                     keyb:set_right_arrow(true)
-                    s:set_flip_x(true)
-                    trf:set_x(trf:get_x() + 1)
                     animfn()
                 end
 
-
                 if btn(0) then
                     keyb:set_left_arrow(true)
-                    s:set_flip_x(false)
-                    trf:set_x(trf:get_x() - 1)
                     animfn()
                 end
 
